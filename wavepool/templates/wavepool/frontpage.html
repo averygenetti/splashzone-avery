@@ -1,0 +1,69 @@
+{% extends 'wavepool/base.html' %}
+{% load static %}
+
+{% block page_content %}
+	<div class="row">
+		<div class="col-md-4">
+			<div id="coverstory" class="row" data-newspost-id="{{cover_story.pk}}">
+				<h2>Cover story</h2>
+				<div class="row">
+					<ul class="feed feed--callout">
+						<li data-newspost-id="{{cover_story.pk}}" data-top-story-placement="{{forloop.counter}}">
+							<span class="label label--loud">
+								{{cover_story.publish_date}}
+							</span>
+							<div class="feed-link">
+								<a href="{{ cover_story.url }}">{{ cover_story.title }}</a>
+							</div>
+							<img src="{% static 'image/placeholder-img.jpg' %}"  width="300" height="175" />
+							<div class="feed-teaser" data-story_id="{{cover_story.pk}}">
+								{{ cover_story.teaser|safe  }} ...
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="topstories" class="col-md-8">
+			<div class="row"><h2>Top Stories</h2></div>
+			<div class="row">
+				<ul class="feed">
+					{% for newspost in top_stories %}
+						<li data-newspost-id="{{newspost.pk}}" data-top-story-placement="{{forloop.counter}}">
+							<span class="label label--soft">
+								{{newspost.publish_date}}
+							</span>
+							<div class="feed-link">
+								<a href="{{ newspost.url }}">{{ newspost.title }}</a>
+							</div>
+							<div class="feed-teaser" data-story_id="{{newspost.pk}}">
+								{{ newspost.teaser|safe  }} ...
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="archive">
+		<div class="row"><h2>Archive</h2></div>
+			<div class="row">
+				<ul class="feed">
+				{% for newspost in archive %}
+					<li data-newspost-id="{{newspost.pk}}" data-top-story-placement="{{forloop.counter}}">
+							<span class="label label--soft">
+								{{newspost.publish_date}}
+							</span>
+							<div class="feed-link">
+								<a href="{{ newspost.url }}">{{ newspost.title }}</a>
+							</div>
+							<div class="feed-teaser" data-story_id="{{newspost.pk}}">
+								{{ newspost.teaser|safe  }} ...
+							</div>
+						</li>
+				{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

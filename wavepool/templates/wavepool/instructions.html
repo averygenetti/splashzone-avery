@@ -1,0 +1,140 @@
+{% extends 'wavepool/base.html' %}
+{% load static %}
+
+{% block extra_style %}
+	<link href="{% static 'css/instructions.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+	<div id="instructions">
+		<div class="row">
+			<h1>Code Exercises</h1>
+		</div>
+
+		<div class="row">
+			<h2>Instructions</h2>
+		</div>
+		<div class="row">
+			<p>For each ticket below, submit a pull request to <strong>your copy</strong> of the <code>wavepool-template</code> repository that completes as many of the acceptance criteria as you can. For each point in the acceptance criteria, a django test is noted which should pass if your solution is valid.</p>
+
+			<p>For each pull request, include instructions for the reviewer to verify the behavior as well as commentary about your solutions. Code comments are encouraged.</p>
+		</div>
+		<div class="row">
+			<h2>Objectives</h2>
+		</div>
+		<div class="row">
+				<ul>
+					<li>Demonstrate basic web framework competencies using Django and Python</li>
+					<li>Demonstrate ability to read and comprehend user requests and acceptance criteria</li>
+					<li>Demonstrate ability to communicate coding decisions to other engineers</li>
+				</ul>
+		</div>
+		{% for ticket in code_exercise_defs %}
+			{% if not show_senior_exercises or show_senior_exercises and ticket.is_senior %}
+				<div class="card">
+						<div class="card-header">
+							<h1 class="card-title">{{ticket.title}}</h1>
+						</div>
+						<div class="card-body">
+						<p class="card-text">{{ticket.description}}</p>
+						<p class="card-text">Test suite: <code>python manage.py test wavepool.tests.{{ticket.test_class}}</code></p>
+						<h2 class="card-title">Acceptance Criteria:</h2>
+							<ul>
+							{% for ac in ticket.acceptance_criteria %}
+								<li class="instructable-ac">
+									{{ac.description}}<br />
+									Test: <code>python manage.py test wavepool.tests.{{ticket.test_class}}.{{ac.test}}</code>
+								</li>
+							{% endfor %}
+							</ul>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+
+	{% if show_senior_exercises %}
+		<div id="instructions">
+			<div class="row">
+				<h1>Code Review</h1>
+			</div>
+
+			<div class="row">
+				<h2>Instructions</h2>
+			</div>
+			<div class="row">
+				<p>For the ticket below, a pull request has been submitted by a junior software engineer. Your task is to review the pull request and provide a critique and suggestions for improvement. We are looking for you to be mindful of code quality and adherance to the ticket's scope.</p>
+
+				<p>If you are logged in to a GitHub account, you can leave comments directly on the pull request. Otherwise, write up your review in a text document and save it for discussion.</p>
+			</div>
+			<div class="row">
+				<h2>Objectives</h2>
+			</div>
+			<div class="row">
+					<ul>
+						<li>Demonstrate ability to read and comprehend code written by another engineer</li>
+						<li>Demonstrate ability to read and comprehend user requests and acceptance criteria</li>
+						<li>Demonstrate ability to deliver feedback to another engineer</li>
+					</ul>
+			</div>
+			{% for ticket in code_review_defs %}
+				<div class="card">
+	  				<div class="card-header"><h1 class="card-title">{{ticket.title}}</h1></div>
+	  				<div class="card-body">
+	  					<p class="card-text">Pull Request: <a href="{{ticket.pull_request}}">{{ticket.pull_request}}</a></p>
+		  				<p class="card-text">{{ticket.description}}</p>
+		  				<h2 class="card-title">Acceptance Criteria:</h2>
+							<ul>
+							{% for ac in ticket.acceptance_criteria %}
+								<li class="instructable-ac">
+									{{ac}}<br />
+								</li>
+							{% endfor %}
+							</ul>
+		  			</div>
+	  			</div>
+			{% endfor %}
+		</div>
+
+
+		<div id="instructions">
+			<div class="row">
+				<h1>Code Design</h1>
+			</div>
+
+			<div class="row">
+				<h2>Instructions</h2>
+			</div>
+			<div class="row">
+				<p>For the ticket below, come up with a design that solves the request given by the user.</p>
+				<p>This can be pseudo code, a diagram/sketch, or a list of technical sub-tasks needed to fullfill the request.</p>
+			</div>
+			<div class="row">
+				<h2>Objectives</h2>
+			</div>
+			<div class="row">
+					<ul>
+						<li>Demonstrate ability to read and comprehend user requests and acceptance criteria</li>
+						<li>Demonstrate ability to architect a solution to a request with low to medium complexity</li>
+						<li>Demonstrate ability to communicate architecture decisions to other engineers</li>
+					</ul>
+			</div>
+			{% for ticket in code_design_defs %}
+				<div class="card">
+	  				<div class="card-header"><h1 class="card-title">{{ticket.title}}</h1></div>
+	  				<div class="card-body">
+		  				<p class="card-text">{{ticket.description}}</p>
+		  				<h2 class="card-title">Acceptance Criteria:</h2>
+							<ul>
+							{% for ac in ticket.acceptance_criteria %}
+								<li class="instructable-ac">
+									{{ac}}<br />
+								</li>
+							{% endfor %}
+							</ul>
+		  			</div>
+	  			</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}

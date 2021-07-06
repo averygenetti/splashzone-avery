@@ -1,0 +1,58 @@
+{% extends 'wavepool/base.html' %}
+{% load static %}
+
+{% block page_content %}
+	<div class="row">
+		<div class="spoonser">
+			<div class="col-2"></div>
+			<div class="col">
+				<a target="_blank" href="https://www.google.com/search?q=fake+company+logos&sxsrf=ALeKk01d0-UuzpkF3NVqdRPo7VB6IqqSsg:1599834685488&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjdvYLRqOHrAhVIl3IEHUrYA6QQ_AUoAXoECAwQAw&biw=1420&bih=746">
+					<div class="row">
+						<div class="col-4 spoonsor-image">
+							<img src="{% static 'image/fastbanana.png' %}" width="200px" />
+						</div>
+						<div class="col spoonsor-content">
+							<span class="spoonsor-text">This news post is brought to you by Fast Banana - get your bananas fast!</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-2"></div>
+		</div>
+	</div>
+
+	{% if user.is_authenticated %}
+		<div class="row admintools">
+			<a id="edit-link" href=""><button>edit</button></a>
+		</div>
+	{% endif %}
+	<div class="row">
+		<div class="col story">
+			<span class="story-byline">
+				<div class="row">
+					<div class="label label--loud">{{newspost.publish_date}}</div>
+				</div>
+				<div class="row">
+					<h1 id="story-title">{{ newspost.title }}
+					</h1>
+				</div>
+				<div class="row">
+					<a href="{{newspost.source}}" target="_blank">See the live story at {{newspost.source_divesite_name}}
+					</a>
+				</div>
+			</span>
+			<div class="row story-content">
+				{{ newspost.body|safe }}
+			</div>
+		</div>
+	</div>
+
+	{% if newspost.tags %}
+		<div class="row">
+			Tags:
+			{% for tag in newspost.tags %}
+				<div class="label label--tag">{{tag}}</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}

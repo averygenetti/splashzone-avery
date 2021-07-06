@@ -1,0 +1,104 @@
+/* common elements */
+.label {
+	text-transform: uppercase;
+	font-size: .7rem;
+	font-weight: bold;
+	display: inline-block;
+	padding: .2rem;
+	background-color: #929090;
+	color: #FFFFFF;
+	&--soft {
+		background-color: #D2D1D1;
+		color: #615F5F;
+	}
+	&--loud {
+		background-color: #000000;
+	}
+	&--tag {
+		background-color: #EF3F3F;
+		color: #000000;
+		margin-left: .5rem;
+		padding: .2rem .5rem;
+		&:hover {
+			background-color: #D2D1D1;
+		}
+	}
+}
+
+/* ads */
+.spoonser {
+	border: solid 2px #288BD2;
+	margin-bottom: 2rem;
+	padding: .5rem 0;
+	a {
+		&:hover {
+			color: initial;
+		}
+	}
+	&-content {
+		background-color: #CCCCCC;
+	}
+	&-text {
+		margin-top: .7rem;
+		display: block;
+	}
+}
+
+
+/* feeds */
+
+.feed {
+	list-style-type: none;
+	padding: 0;
+	&--callout {
+		background-color: #f9f9f9;
+		border: solid 1px #e6e6e6;
+		padding: 1rem;
+		margin-right: 1.2rem;
+		a {
+			font-size: 1.2rem;
+		}
+	}
+	&-link {
+		a {
+			font-size: 1rem;
+		}
+	}
+	li {
+		border-bottom: 1px solid #CCCCCC;
+		margin: .3rem 0 1rem 0;
+		&:last-child {
+		 border-bottom: 0;
+		}
+	}
+}
+
+/* detail page */
+.story {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border-bottom: 1px solid #288BD2;
+	h1 {
+		border-bottom: 1px solid #f94040;
+	}
+	
+	&-byline {
+		a {
+			color: #929090;
+			&:hover {
+				color: #f94040;
+			}
+		}
+	}
+
+	&-content {
+		a {
+			text-decoration: underline;
+			font-weight: normal;
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+	}
+
+}
