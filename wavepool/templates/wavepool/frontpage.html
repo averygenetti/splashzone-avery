@@ -1,0 +1,52 @@
+{% extends 'wavepool/base.html' %}
+{% load static %}
+
+{% block page_content %}
+	<div class="row">
+		<div class="col-md-4">
+			<div id="coverstory" class="row" data-newspost-id="{{cover_story.pk}}">
+				<h2>Cover story</h2>
+				<div class="title">
+					<span class="pubdate">{{cover_story.publish_date}}</span>
+					<a href="{{ cover_story.url }}">{{ cover_story.title }}</a>
+				</div>
+				<div><img src="media/image/placeholder-img.jpg"  width="300" height="175" /></div>
+				<div class="newspost-teaser" data-newspost-id="{{cover_story.pk}}">
+					{{ cover_story.teaser }} ...
+				</div>
+			</div>
+		</div>
+		<div id="topstories" class="col-md-8">
+			<div class="row"><h2>Top Stories</h2></div>
+			<div class="row">
+				{% for newspost in top_stories %}
+					<div class="topstory" data-newspost-id="{{newspost.pk}}" data-top-story-placement="{{forloop.counter}}">
+						<span class="pubdate">{{newspost.publish_date}}</span>
+						<div class="frontpage-archive_link"><a href="{{ newspost.url }}">{{ newspost.title }}</a></div>
+						<div class="newspost-teaser" data-story_id="{{newspost.pk}}">
+							{{ newspost.teaser  }} ...
+						</div>
+					<hr />
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div id="frontpage-archive">
+		<div class="row"><h2>Archive</h2></div>
+		<div class="row">
+			<div id="archive-stories">
+				{% for newspost in archive %}
+					<div class="archived-story" data-archive-story-id="{{newspost.pk}}">
+						<span class="pubdate">{{newspost.publish_date}}</span>
+						<div class="frontpage-archive_link"><a href="{{ newspost.url }}">{{ newspost.title }}</a></div>
+						<div class="newspost-teaser" data-story_id="{{newspost.pk}}">
+							{{ newspost.teaser  }} ...
+						</div>
+					</div>
+					<hr />
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

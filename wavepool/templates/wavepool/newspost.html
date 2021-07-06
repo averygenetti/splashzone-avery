@@ -1,0 +1,37 @@
+{% extends 'wavepool/base.html' %}
+{% load static %}
+
+{% block page_content %}
+	<div class="row">
+		<div class="col-2"></div>
+		<div id="newspost-sponsorship" class="col">
+			<a target="_blank" href="https://www.google.com/search?q=fake+company+logos&sxsrf=ALeKk01d0-UuzpkF3NVqdRPo7VB6IqqSsg:1599834685488&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjdvYLRqOHrAhVIl3IEHUrYA6QQ_AUoAXoECAwQAw&biw=1420&bih=746">
+				<div class="row">
+					<div id="sponsor-image" class="col-4">
+						<img src="{% static 'image/fastbanana.png' %}" width="200px" />
+					</div>
+					<div id="sponsor-content" class="col">
+						<span id="sponsor-text">This news post is brought to you by Fast Banana - get your bananas fast!</span>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-2"></div>
+	</div>
+	<div class="newspost-detail">
+		<div class="row"><a id="edit-link" href=""><button>edit</button></a></div>
+		<div class="row">
+			<h1 id="newspost-title">{{ newspost.title }}<span class="pubdate">{{newspost.publish_date}}</span></h1>
+		</div>
+		<div class="row"><a href="{{newspost.source}}" target="_blank">See the live story at {{newspost.source_divesite_name}}</a></div>
+		<div class="row newspost-body">
+			{{ newspost.body }}
+		</div>
+	</div>
+
+	{% if newspost.tags %}
+		<div class="row" id="newspost-topics">
+			Tags: {% for tag in newspost.tags %}{{tag}}{% if not forloop.last %},{% endif %} {% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}
