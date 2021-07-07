@@ -5,6 +5,15 @@ from django.utils import timezone
 
 from taxonomy.models import DiveSite, Topic
 
+# snippet below from https://stackoverflow.com/a/12982689 :
+import re
+
+def cleanhtml(raw_html):
+  cleanr = re.compile('<.*?>')
+  cleantext = re.sub(cleanr, '', raw_html)
+  return cleantext
+# /snippet
+
 
 DIVESITE_SOURCE_NAMES = {
     'retaildive': 'Retail Dive',
@@ -37,7 +46,17 @@ class NewsPost(models.Model):
 
     @property
     def teaser(self):
-        return self.body[:150]
+        # The solution for me is to use the cleanhtml function defined above, that uses a regex to remove HTML tags.
+        # The prompt suggests that we could create a way for editors to custom-set the teaser, but given the acceptance criteria,
+        # I find this to be a much simpler solution, if it is the case that all that is needed is for the page to not break. 
+        # I would definitely ask the stakeholders if they need to be able to define the teaser manually for a
+        # different reason - I could imagine that being able to paraphrase the article text manually might be desirable.
+        #
+        # Verify by setting 'active' on the post with id 13 to True, then viewing the front page.
+        #
+        # I will also note that the prompt mentions the post titled "Regeneron antibody cuts risk of COVID-19 death in UK study" (id 10).
+        # That post doesn't seem to create the problem for me, but post 13 does! So I'm assuming that's the one that I'm supposed to fix.
+        return cleanhtml(self.body)[:150]
 
     @property
     def source_divesite(self):
