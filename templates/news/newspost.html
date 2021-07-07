@@ -13,7 +13,9 @@
 				<a target="_blank" href="{{ad.url}}">
 					<div class="row">
 						<div class="col-4 spoonsor-image">
-							<img src="{% static 'spoonsers/' %}{{ad.logo}}" width="200px" />
+							<!-- Slight modifcation to the URL generation code here, because the ImageField stores the directory as a part of its path,
+										but we still need to get the app's base URL to prefix it with. -->
+							<img src="{{ request.scheme }}://{{ request.get_host }}/{{ad.logo}}" width="200px" />
 						</div>
 						<div class="col spoonsor-content">
 							<span class="spoonsor-text">This news post is brought to you by {{ad.company_name}} - {{ad.copy}}</span>
