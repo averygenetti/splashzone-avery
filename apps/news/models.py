@@ -27,6 +27,7 @@ class NewsPost(models.Model):
     divesite = models.ForeignKey(DiveSite, null=True, on_delete=models.SET_NULL)
     topics = models.ManyToManyField(Topic)
     active = models.BooleanField(default=True)
+    ad = models.ForeignKey('advertising.Ad', models.SET_NULL, blank=True, null=True) # let's link this model to the newly created Ad model, and set the relationship to null if the ad is deleted.
 
     def __str__(self):
         return '<{}> {}'.format(self.divesite.url_name, self.title)

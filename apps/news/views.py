@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.template import loader
 from django.http import HttpResponse
 
-from advertising import get_ad
+# let's use the Ad model I created...
+from advertising.models import Ad
 from news.models import NewsPost
 from news.helpers import parse_search_terms
 from taxonomy.models import Topic
@@ -34,9 +35,22 @@ def front_page(request):
 def newspost_detail(request, newspost_id):
     template = loader.get_template('news/newspost.html')
     newspost = NewsPost.objects.get(pk=newspost_id)
+
+    if newspost.ad :
+        ad = newspost.ad # if our newspost has an ad defined, use it
+    else :
+        house_ads = Ad.objects.all().filter(house_ad = True).order_by('?') # get all house ads
+
+        if house_ads.count() == 0 :
+            # if there are no house ads, just get anything
+            ad = Ad.objects.all().order_by('?').first()
+        else :
+            # otherwise, get the first random house ad we find
+            ad = Ad.objects.all().filter(house_ad = True).order_by('?').first()
+
     context = {
         'newspost': newspost,
-        'ad': get_ad()
+        'ad': ad
     }
     return HttpResponse(template.render(context, request))
 
