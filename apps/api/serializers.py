@@ -38,5 +38,6 @@ class NewsPostSerializer(serializers.HyperlinkedModelSerializer):
             'publish_date',
             'source',
             'divesite',
-            'topics',
+            'topics', 
+            'topic_names' # added this property to make things a little easier in the frontend, since this whole thing is a bit quick and dirty to begin with.
         ]

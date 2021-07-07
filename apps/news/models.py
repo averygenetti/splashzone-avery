@@ -43,6 +43,13 @@ class NewsPost(models.Model):
     def source_divesite(self):
         return self.divesite.display_name
 
+    # This will make front end implementation a bit easier since we're not using any big front-end frameworks to handle the data model,
+    # and we just need the names so we can render the tags. If I had more time I'd want to have the topic model fully represented in the
+    # front-end, so this wouldn't be necessary since JS could just query for the topic objects and not have to get them from the news endpoint.
+    @property
+    def topic_names(self):
+        return [topic.display_name for topic in self.topics.all()]
+
     def tags(self):
         return [
             'HR', 'Diversity & Inclusion', 'Culture'

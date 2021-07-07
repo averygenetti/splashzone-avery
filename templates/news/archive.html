@@ -3,6 +3,7 @@
 
 {% block extra_style %}
 	<link href="{% static 'css/news.css' %}" rel="stylesheet">
+	<script src="{% static 'js/live_search.js' %}"></script>
 {% endblock %}
 
 {% block page_content %}
@@ -12,13 +13,12 @@
 				<label for="topics">Filter by topic:</label>
 			</div>
 			<div class="col">
-				<ul class="form form-multiselect">
-				{% for topic in topics %}
-					<li><input type="checkbox" name="topics_{{topic.pk}}" id="id_topics_{{topic.pk}}" value="{{topic.id}}" 
-						{% if topic in selected_topics %}checked=checked{% endif %}
-						> {{topic.display_name}}</li>
-				{% endfor %}
-				</ul>
+				<!-- Changing this to a select makes it just a bit easier to work with in jQuery. -->
+				<select id="topics" name="topics" multiple="multiple" class="form form-multiselect">
+				  {% for topic in topics %}
+				  	<option value="{{topic.id}}">{{topic.display_name}}</option>
+				  {% endfor %}
+				</select>
 			</div>
 			<div class="col-sm-1 col-form-label">
 				<label for="text_search">Text:</label>
@@ -27,37 +27,44 @@
 				<input type="text" id="id_text_search" name="text_search" class="form-control" {% if text_search %}value="{{text_search}}" {% endif %}/>
 			</div>
 			<div class="col">
-				<input type="submit" id="id_submit" name="submit" class="btn btn-dark" value="search" />
+				<!-- Submit is no longer useful, but 'Clear' is! -->
+				<input type="button" id="clear" name="clear" class="btn btn-dark" value="Clear" />
 			</div>
 		</div>
 	</form>
-	{% if searched %}
-		<span class="search">
-			<div class="row" id="search-result-header">
-				<h2>Search Results</h2>
-			</div>
-			<div class="row search-description">
-				{% if text_search_value %}
+	<span class="search" id="search_results">
+		<div class="row" id="search-result-header">
+			<h2>Search Results</h2>
+		</div>
+		<div class="row search-description">
+
+			<span id="search_text_display">
 				<div class="col">
-					<b>Search term:</b> "{{text_search_value}}"
+					<b>Search term:</b> <span id="search_term"></span> <!-- JS will populate this with the current search term when applicable -->
 				</div>
-				{% endif %}
-				{% if selected_topics %}
+			</span>
+			
+			<span id="topic_search_display">
 				<div class="col">
-					<b>Topics:</b> {% for topic in selected_topics %}
-						<div class="label label--tag">{{topic.display_name}}</div>
-					{% endfor %}
+					<b>Topics:</b> <span id="topic_list"></span> <!-- JS will populate this with the current topic list when applicable -->
 				</div>
-				{% endif %}
-				
-			</div>
-		</span>
-	{% else %}
+			</span>
+			
+		</div>
+		<div class="row">
+			<ul class="feed" id="search_results_feed">
+				<!-- Javascript will place results here if there are results to be had. -->
+			</ul>
+		</div>
+	</span>
+	<!-- We'll hide this section if any filters are being used. -->
+	<span class="news_archive" id="news_archive">
 		<div class="row">
 			<h2>News Archive</h2>
 		</div>
-	{% endif %}
-	<div class="row">
-		{% include 'news/includes/news_feed.html' with feed=news_archive feed_id="archive" format="detailed" %}
-	</div>
+		<div class="row">
+			<!-- If we don't have any filters selected, let Django render the archive normally -->
+			{% include 'news/includes/news_feed.html' with feed=news_archive feed_id="archive" format="detailed" %}
+		</div>
+	</span>
 {% endblock %}
