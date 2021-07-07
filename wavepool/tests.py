@@ -184,10 +184,13 @@ class SiteFrontPage(TestBase):
 
         front_page = self.client.get('')
         front_page_html = BeautifulSoup(front_page.content, 'html.parser')
-        archive_story_divs = front_page_html.find_all('div', {'class': 'archived-story'})
-        self.assertEqual(len(archive_story_divs), len(archive_stories))
-        for div in archive_story_divs:
-            story_id = int(div['data-archive-story-id'])
+
+        # Similar to above, I modified the test to look for <li> elements and the 'data-newspost-id' property since
+        # this seems to match better with my best guess at the intended behavior, judging off of the template file.
+        archive_story_lis = front_page_html.find_all('li', {'class': 'archived-story'})
+        self.assertEqual(len(archive_story_lis), len(archive_stories))
+        for li in archive_story_lis:
+            story_id = int(li['data-newspost-id'])
             self.assertIn(story_id, [s.id for s in archive_stories])
 
     def test_newspost_teaser_render(self):

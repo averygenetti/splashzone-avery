@@ -64,7 +64,20 @@ def front_page(request):
 
     top_stories = NewsPost.objects.all().exclude(id = cover_story.id).order_by('-publish_date')[:3]
 
-    other_stories = NewsPost.objects.all().order_by('?')
+    # "All news posts that do not appear as the cover story or as top stories should be listed in the archive, 
+    # ordered by most recent first"
+    # ------
+    # Current implementation is to list all stories randomly.
+    # 
+    # Need to order stories chronologically and exclude top stories + the cover story.
+    #
+    # This one is pretty straightforward; just build a list of ids to exclude from our existing variables (top_stories and cover_story)
+    # and make sure to order the posts correctly.
+
+    exclude_from_other_stories = [top_story.id for top_story in top_stories]
+    exclude_from_other_stories.append(cover_story.id)
+    
+    other_stories = NewsPost.objects.all().exclude(id__in = exclude_from_other_stories).order_by('-publish_date')
 
     context = {
         'cover_story': cover_story,

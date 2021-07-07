@@ -50,7 +50,7 @@
 			<div class="row">
 				<ul class="feed">
 				{% for newspost in archive %}
-					<li data-newspost-id="{{newspost.pk}}" data-top-story-placement="{{forloop.counter}}">
+					<li class="archived-story" data-newspost-id="{{newspost.pk}}" data-top-story-placement="{{forloop.counter}}">
 							<span class="label label--soft">
 								{{newspost.publish_date}}
 							</span>
